@@ -30,7 +30,6 @@ class AgentState(TypedDict, total=False):
     answer: str
     trace: list
     summary: str
-    turn_count: int
     context_decision: str
     sources: list
     context_contradictory: bool
