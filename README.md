@@ -66,11 +66,41 @@ Chunks use 800 characters with 100 overlap to preserve enough argument continuit
 
 ## What I Would Do With Another Week
 
-- Add citation-grounded answer verification and contradiction detection with confidence scoring.
-- Add retrieval diagnostics dashboard (query rewrite diff, distance histograms, hit distribution).
-- Improve PDF parsing robustness with layout-aware extraction and OCR fallback.
-- Add regression eval suites with behavior drift alerts over new ingestions.
-- Implement stronger prompt+policy testing around refusal and clarification boundaries.
+**1. Citation-grounded answer verification**  
+The current generate_answer node produces answers that cite paper titles 
+inline but doesn't verify the citations are accurate — the LLM can 
+hallucinate title-content mismatches. I'd add a post-generation 
+verification step that re-retrieves the cited chunk and checks semantic 
+overlap between the claim and the source using cosine similarity. Answers 
+below a threshold would be flagged with a confidence warning.
+
+**2. Reranking layer on top of query rewriting**  
+Query rewriting improves recall but not necessarily precision. Adding a 
+cross-encoder reranker (e.g. cross-encoder/ms-marco-MiniLM-L-6-v2) on 
+the top-6 retrieved chunks before generation would improve answer quality 
+measurably — I have the ablation framework already in place to demonstrate 
+the improvement with eval scores.
+
+**3. Persistent session memory across app restarts**  
+Currently all conversation state lives in `st.session_state` and is lost 
+on page refresh. I'd add SQLite-backed session persistence so users can 
+resume conversations and the agent can reference prior research sessions. 
+This also enables longitudinal eval — tracking how answer quality changes 
+as the user builds context.
+
+**4. Retrieval diagnostics panel**  
+The trace viewer in the sidebar shows raw JSON. I'd replace this with a 
+structured diagnostics view: query rewrite diff side-by-side, top-k chunk 
+distances as a bar chart, and a hit distribution across papers showing 
+which papers are being retrieved most often. This would surface corpus 
+coverage gaps immediately.
+
+**5. Contradiction detection as a first-class node**  
+The current check_context node routes "contradictory" retrievals to 
+generate_answer with a warning flag. I'd make contradiction detection 
+its own LangGraph node with a dedicated prompt that identifies which 
+specific claims conflict and presents them explicitly to the user, rather 
+than deferring to the generation model to handle it inline.
 
 ## Known Limitations
 
