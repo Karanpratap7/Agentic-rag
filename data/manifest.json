@@ -1,0 +1,1405 @@
+{
+  "paper_ids": [
+    "2605.04039v1",
+    "2605.04036v1",
+    "2605.04019v1",
+    "2605.04012v1",
+    "2605.04003v1",
+    "2605.03989v1",
+    "2605.03986v1",
+    "2605.03984v1",
+    "2605.03969v1",
+    "2605.03968v1",
+    "2605.03954v1",
+    "2605.03952v1",
+    "2605.03944v1",
+    "2605.03941v1",
+    "2605.03936v1",
+    "2605.03934v1",
+    "2605.03932v1",
+    "2605.03929v1",
+    "2605.03916v1",
+    "2605.03907v1",
+    "2605.03900v1",
+    "2605.03884v1",
+    "2605.03882v1",
+    "2605.03877v1",
+    "2605.03874v1",
+    "2605.03871v1",
+    "2605.03863v1",
+    "2605.03862v1",
+    "2605.03858v1",
+    "2605.03847v1",
+    "2605.03842v1",
+    "2605.03838v1",
+    "2605.03821v1",
+    "2605.03808v1",
+    "2605.03804v1",
+    "2605.03800v1",
+    "2605.03788v1",
+    "2605.03782v1",
+    "2605.03762v1",
+    "2605.03759v1",
+    "2605.03743v1",
+    "2605.03724v1",
+    "2605.03723v1",
+    "2605.03710v1",
+    "2605.03706v1",
+    "2605.03701v1",
+    "2605.03697v1",
+    "2605.03690v1",
+    "2605.03675v1",
+    "2605.03669v1",
+    "2605.03667v1",
+    "2605.03660v1",
+    "2605.03652v1",
+    "2605.03648v1",
+    "2605.03644v1",
+    "2605.03625v1",
+    "2605.03609v1",
+    "2605.03604v1",
+    "2605.03598v1",
+    "2605.03596v1",
+    "2605.03588v1",
+    "2605.03571v1",
+    "2605.03570v1",
+    "2605.03562v1",
+    "2605.03548v1",
+    "2605.03547v1",
+    "2605.03546v1",
+    "2605.03544v1",
+    "2605.03537v1",
+    "2605.03520v1",
+    "2605.03514v1",
+    "2605.03512v1",
+    "2605.03511v1",
+    "2605.03509v1",
+    "2605.03491v1",
+    "2605.03485v1",
+    "2605.03482v1",
+    "2605.03476v1",
+    "2605.03472v1",
+    "2605.03465v1",
+    "2605.03462v1",
+    "2605.03460v1",
+    "2605.03441v1",
+    "2605.03430v1",
+    "2605.03426v1",
+    "2605.03423v1",
+    "2605.03420v1",
+    "2605.03413v1",
+    "2605.03412v1",
+    "2605.03410v1",
+    "2605.03409v1",
+    "2605.03408v1",
+    "2605.03395v1",
+    "2605.03391v1",
+    "2605.03390v1",
+    "2605.03386v1",
+    "2605.03383v1",
+    "2605.03361v1",
+    "2605.03354v1",
+    "2605.03353v1"
+  ],
+  "papers": [
+    {
+      "paper_id": "2605.04039v1",
+      "title": "Safety and accuracy follow different scaling laws in clinical large language models",
+      "authors": [
+        "Sebastian Wind",
+        "Tri-Thien Nguyen",
+        "Jeta Sopa",
+        "Mahshad Lotfinia",
+        "Sebastian Bickelhaup",
+        "Michael Uder",
+        "Harald K\u00f6stler",
+        "Gerhard Wellein",
+        "Sven Nebelung",
+        "Daniel Truhn",
+        "Andreas Maier",
+        "Soroosh Tayebi Arasteh"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.04036v1",
+      "title": "OpenSeeker-v2: Pushing the Limits of Search Agents with Informative and High-Difficulty Trajectories",
+      "authors": [
+        "Yuwen Du",
+        "Rui Ye",
+        "Shuo Tang",
+        "Keduan Huang",
+        "Xinyu Zhu",
+        "Yuzhu Cai",
+        "Siheng Chen"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.04019v1",
+      "title": "Redefining AI Red Teaming in the Agentic Era: From Weeks to Hours",
+      "authors": [
+        "Raja Sekhar Rao Dheekonda",
+        "Will Pearce",
+        "Nick Landers"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.04012v1",
+      "title": "SymptomAI: Towards a Conversational AI Agent for Everyday Symptom Assessment",
+      "authors": [
+        "Joseph Breda",
+        "Fadi Yousif",
+        "Beszel Hawkins",
+        "Marinela Cotoi",
+        "Miao Liu",
+        "Ray Luo",
+        "Po-Hsuan Cameron Chen",
+        "Mike Schaekermann",
+        "Samuel Schmidgall",
+        "Xin Liu",
+        "Girish Narayanswamy",
+        "Samuel Solomon",
+        "Maxwell A. Xu",
+        "Xiaoran Fan",
+        "Longfei Shangguan",
+        "Anran Wang",
+        "Bhavna Daryani",
+        "Buddy Herkenham",
+        "Cara Tan",
+        "Mark Malhotra",
+        "Shwetak Patel",
+        "John B. Hernandez",
+        "Quang Duong",
+        "Yun Liu",
+        "Zach Wasson",
+        "Dimitrios Antos",
+        "Bob Lou",
+        "Matthew Thompson",
+        "Jonathan Richina",
+        "Anupam Pathak",
+        "Nichole Young-Lin",
+        "Jake Sunshine",
+        "Daniel McDuff"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.04003v1",
+      "title": "Physics-Grounded Multi-Agent Architecture for Traceable, Risk-Aware Human-AI Decision Support in Manufacturing",
+      "authors": [
+        "Danny Hoang",
+        "Ryan Matthiessen",
+        "Christopher Miller",
+        "Nasir Mannan",
+        "Ruby ElKharboutly",
+        "David Gorsich",
+        "Matthew P. Castanier",
+        "Farhad Imani"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03989v1",
+      "title": "An Agent-Oriented Pluggable Experience-RAG Skill for Experience-Driven Retrieval Strategy Orchestration",
+      "authors": [
+        "Dutao Zhang",
+        "Tian Liao"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03986v1",
+      "title": "From Intent to Execution: Composing Agentic Workflows with Agent Recommendation",
+      "authors": [
+        "Kishan Athrey",
+        "Ramin Pishehvar",
+        "Brian Riordan",
+        "Mahesh Viswanathan"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03984v1",
+      "title": "Flow Sampling: Learning to Sample from Unnormalized Densities via Denoising Conditional Processes",
+      "authors": [
+        "Aaron Havens",
+        "Brian Karrer",
+        "Neta Shaul"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03969v1",
+      "title": "Feature-Augmented Transformers for Robust AI-Text Detection Across Domains and Generators",
+      "authors": [
+        "Mohamed Mady",
+        "Johannes Reschke",
+        "Bj\u00f6rn Schuller"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03968v1",
+      "title": "Label-Efficient School Detection from Aerial Imagery via Weakly Supervised Pretraining and Fine-Tuning",
+      "authors": [
+        "Zakarya Elmimouni",
+        "Fares Fourati",
+        "Mohamed-Slim Alouini"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03954v1",
+      "title": "Inconsistent Databases and Argumentation Frameworks with Collective Attacks",
+      "authors": [
+        "Yasir Mahmood",
+        "Jonni Virtema",
+        "Timon Barlag",
+        "Axel-Cyrille Ngonga Ngomo"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03952v1",
+      "title": "MOSAIC-Bench: Measuring Compositional Vulnerability Induction in Coding Agents",
+      "authors": [
+        "Jonathan Steinberg",
+        "Oren Gal"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03944v1",
+      "title": "TabSurv: Adapting Modern Tabular Neural Networks to Survival Analysis",
+      "authors": [
+        "Stanislav Kirpichenko",
+        "Andrei Konstantinov",
+        "Lev Utkin"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03941v1",
+      "title": "A Benchmark for Interactive World Models with a Unified Action Generation Framework",
+      "authors": [
+        "Jianjie Fang",
+        "Yingshan Lei",
+        "Qin Wan",
+        "Ziyou Wang",
+        "Yuchao Huang",
+        "Yongyan Xu",
+        "Baining Zhao",
+        "Weichen Zhang",
+        "Chen Gao",
+        "Xinlei Chen",
+        "Yong Li"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03936v1",
+      "title": "The Counterexample Game: Iterated Conceptual Analysis and Repair in Language Models",
+      "authors": [
+        "Daniel Drucker",
+        "Kyle Mahowald"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03934v1",
+      "title": "Towards Open World Sound Event Detection",
+      "authors": [
+        "P. H. Hai",
+        "L. T. Minh",
+        "L. H. Son"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03932v1",
+      "title": "Magic-Informed Quantum Architecture Search",
+      "authors": [
+        "Vincenzo Lipardi",
+        "Domenica Dibenedetto",
+        "Georgios Stamoulis",
+        "Mark H. M. Winands"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03929v1",
+      "title": "PHALAR: Phasors for Learned Musical Audio Representations",
+      "authors": [
+        "Davide Marincione",
+        "Michele Mancusi",
+        "Giorgio Strano",
+        "Luca Cerovaz",
+        "Donato Crisostomi",
+        "Roberto Ribuoli",
+        "Emanuele Rodol\u00e0"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03916v1",
+      "title": "Atomic Fact-Checking Increases Clinician Trust in Large Language Model Recommendations for Oncology Decision Support: A Randomized Controlled Trial",
+      "authors": [
+        "Lisa C. Adams",
+        "Linus Marx",
+        "Erik Thiele Orberg",
+        "Keno Bressem",
+        "Sebastian Ziegelmayer",
+        "Denise Bernhardt",
+        "Markus Graf",
+        "Marcus R. Makowski",
+        "Stephanie E. Combs",
+        "Florian Matthes",
+        "Jan C. Peeken"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03907v1",
+      "title": "Steer Like the LLM: Activation Steering that Mimics Prompting",
+      "authors": [
+        "Geert Heyman",
+        "Frederik Vandeputte"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03900v1",
+      "title": "Contextual Multi-Objective Optimization: Rethinking Objectives in Frontier AI Systems",
+      "authors": [
+        "Jie Zhou",
+        "Qin Chen",
+        "Liang He"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03884v1",
+      "title": "QKVShare: Quantized KV-Cache Handoff for Multi-Agent On-Device LLMs",
+      "authors": [
+        "Pratik Honavar",
+        "Tejpratap GVSL"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03882v1",
+      "title": "Deco: Extending Personal Physical Objects into Pervasive AI Companion through a Dual-Embodiment Framework",
+      "authors": [
+        "Zhihan Jiang",
+        "Mengyuan Millie Wu",
+        "Ruishi Zou",
+        "Shiyu Xu",
+        "Xun Qian",
+        "Emma Macmanus",
+        "Steven Liao",
+        "Ping Zhang",
+        "Bingsheng Yao",
+        "Tingyu Cheng",
+        "James L. David",
+        "Nabila El-Bassel",
+        "Lena Mamykina",
+        "Frances R. Levin",
+        "Ryan Sultan",
+        "Dakuo Wang",
+        "Xuhai Xu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03877v1",
+      "title": "DMGD: Train-Free Dataset Distillation with Semantic-Distribution Matching in Diffusion Models",
+      "authors": [
+        "Qichao Wang",
+        "Yunhong Lu",
+        "Hengyuan Cao",
+        "Junyi Zhang",
+        "Min Zhang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03874v1",
+      "title": "Spatiotemporal Convolutions on EEG signal -- A Representation Learning Perspective on Efficient and Explainable EEG Classification with Convolutional Neural Nets",
+      "authors": [
+        "Laurits Dixen",
+        "Stefan Heinrich",
+        "Paolo Burelli"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03871v1",
+      "title": "EvoLM: Self-Evolving Language Models through Co-Evolved Discriminative Rubrics",
+      "authors": [
+        "Shuyue Stella Li",
+        "Rui Xin",
+        "Teng Xiao",
+        "Yike Wang",
+        "Rulin Shao",
+        "Zoey Hao",
+        "Melanie Sclar",
+        "Sewoong Oh",
+        "Faeze Brahman",
+        "Pang Wei Koh",
+        "Yulia Tsvetkov"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03863v1",
+      "title": "Quantifying the human visual exposome with vision language models",
+      "authors": [
+        "Christian Rominger",
+        "Andreas R. Schwerdtfeger",
+        "Malay Gaherwar Singh",
+        "Dimitri Khudyakow",
+        "Elizabeth A. M. Michels",
+        "Fabian Wolf",
+        "Jakob Nikolas Kather",
+        "Magdalena Katharina Wekenborg"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03862v1",
+      "title": "Correct Is Not Enough: Training Reasoning Planners with Executor-Grounded Rewards",
+      "authors": [
+        "Tianyang Han",
+        "Hengyu Shi",
+        "Junjie Hu",
+        "Xu Yang",
+        "Zhiling Wang",
+        "Junhao Su"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03858v1",
+      "title": "MCJudgeBench: A Benchmark for Constraint-Level Judge Evaluation in Multi-Constraint Instruction Following",
+      "authors": [
+        "Jaeyun Lee",
+        "Junyoung Koh",
+        "Zeynel Tok",
+        "Hunar Batra",
+        "Ronald Clark"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03847v1",
+      "title": "Mechanical Conscience: A Mathematical Framework for Dependability of Machine Intelligenc",
+      "authors": [
+        "Munkhdegerekh Batzorig",
+        "Purevbaatar Ganbold",
+        "Kyungbin Park",
+        "Pilkong Jeong",
+        "Kangbin"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03842v1",
+      "title": "SOAR: Real-Time Joint Optimization of Order Allocation and Robot Scheduling in Robotic Mobile Fulfillment Systems",
+      "authors": [
+        "Yibang Tang",
+        "Yifan Yang",
+        "Jingyuan Wang",
+        "Junhua Chen",
+        "Zhen Zhao"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03838v1",
+      "title": "TRACE: A Metrologically-Grounded Engineering Framework for Trustworthy Agentic AI Systems in Operationally Critical Domains",
+      "authors": [
+        "Serhii Zabolotnii"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03821v1",
+      "title": "RoboAlign-R1: Distilled Multimodal Reward Alignment for Robot Video World Models",
+      "authors": [
+        "Hao Wu",
+        "Yuqi Li",
+        "Yuan Gao",
+        "Fan Xu",
+        "Fan Zhang",
+        "Kun Wang",
+        "Penghao Zhao",
+        "Qiufeng Wang",
+        "Yizhou Zhao",
+        "Weiyan Wang",
+        "Yingli Tian",
+        "Xian Wu",
+        "Xiaomeng Huang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03808v1",
+      "title": "Agentic-imodels: Evolving agentic interpretability tools via autoresearch",
+      "authors": [
+        "Chandan Singh",
+        "Yan Shuo Tan",
+        "Weijia Xu",
+        "Zelalem Gero",
+        "Weiwei Yang",
+        "Michel Galley",
+        "Jianfeng Gao"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03804v1",
+      "title": "ScrapMem: A Bio-inspired Framework for On-device Personalized Agent Memory via Optical Forgetting",
+      "authors": [
+        "Jiale Chang",
+        "Yuxiang Ren"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03800v1",
+      "title": "AI Advocate: Educational Path to Transform Squads to the Future",
+      "authors": [
+        "Carla Soares",
+        "Gabriel Moreira",
+        "Ana Paula Camargo",
+        "Fabio Henrique Scacabarozi",
+        "Nicole Davila",
+        "Marselle Silva"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03788v1",
+      "title": "Say the Mission, Execute the Swarm: Agent-Enhanced LLM Reasoning in the Web-of-Drones",
+      "authors": [
+        "Andrea Iannoli",
+        "Lorenzo Gigli",
+        "Luca Sciullo",
+        "Angelo Trotta",
+        "Marco Di Felice"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03782v1",
+      "title": "What You Think is What You See: Driving Exploration in VLM Agents via Visual-Linguistic Curiosity",
+      "authors": [
+        "Haoxi Li",
+        "Qinglin Hou",
+        "Jianfei Ma",
+        "Jinxiang Lai",
+        "Tao Han",
+        "Sikai Bai",
+        "Jingcai Guo",
+        "Jie Zhang",
+        "Song Guo"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03762v1",
+      "title": "OracleProto: A Reproducible Framework for Benchmarking LLM Native Forecasting via Knowledge Cutoff and Temporal Masking",
+      "authors": [
+        "Yiding Ma",
+        "Chengyun Ruan",
+        "Kaibo Huang",
+        "Zhongliang Yang",
+        "Linna Zhou"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03759v1",
+      "title": "Before Forgetting, Learn to Remember: Revisiting Foundational Learning Failures in LVLM Unlearning Benchmarks",
+      "authors": [
+        "JuneHyoung Kwon",
+        "MiHyeon Kim",
+        "Eunju Lee",
+        "JungMin Yun",
+        "Byeonggeuk Lim",
+        "YoungBin Kim"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03743v1",
+      "title": "A Workflow-Oriented Framework for Asynchronous Human-AI Collaboration in Hybrid and Compute-Intensive HPC Environments",
+      "authors": [
+        "Sergio Mendoza",
+        "Cedric Bhihe",
+        "Natalia Zamora",
+        "David Modesto",
+        "Jose Martin Bugallo Batalla",
+        "Jesus Gomez Canovas",
+        "Rafel Palomo Avellaneda",
+        "Miguel Perez Espinosa"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03724v1",
+      "title": "Rethinking the Rank Threshold for LoRA Fine-Tuning",
+      "authors": [
+        "Juneyoung Park"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03723v1",
+      "title": "Segmenting Human-LLM Co-authored Text via Change Point Detection",
+      "authors": [
+        "Mengchu Li",
+        "Jin Zhu",
+        "Jinglai Li",
+        "Chengchun Shi"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03710v1",
+      "title": "Amortized Variational Inference for Joint Posterior and Predictive Distributions in Bayesian Uncertainty Quantification",
+      "authors": [
+        "Nan Feng",
+        "Xun Huan"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03706v1",
+      "title": "SAM-NER: Semantic Archetype Mediation for Zero-Shot Named Entity Recognition",
+      "authors": [
+        "Ruichu Cai",
+        "Juntao Gan",
+        "Miao Mai",
+        "Zhifeng Hao",
+        "Boyan Xu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03701v1",
+      "title": "SERE: Structural Example Retrieval for Enhancing LLMs in Event Causality Identification",
+      "authors": [
+        "Zhifeng Hao",
+        "Zhongjie Chen",
+        "Junhao Lu",
+        "Shengyin Yu",
+        "Guimin Hu",
+        "Keli Zhang",
+        "Ruichu Cai",
+        "Boyan Xu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03697v1",
+      "title": "Tailored Prompts, Targeted Protection: Vulnerability-Specific LLM Analysis for Smart Contracts",
+      "authors": [
+        "Xing Zhang",
+        "Keyu Zhang",
+        "Taohong Zhu",
+        "Anbang Ruan"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03690v1",
+      "title": "Graph Neural Network based Hierarchy-Aware Embeddings of Knowledge Graphs: Applications to Yeast Phenotype Prediction",
+      "authors": [
+        "Filip Kronstr\u00f6m",
+        "Alexander H. Gower",
+        "Daniel Brunns\u00e5ker",
+        "Ievgeniia A. Tiukova",
+        "Ross D. King"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03675v1",
+      "title": "MEMTIER: Tiered Memory Architecture and Retrieval Bottleneck Analysis for Long-Running Autonomous AI Agents",
+      "authors": [
+        "Bronislav Sidik",
+        "Lior Rokach"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03669v1",
+      "title": "FUS3DMaps: Scalable and Accurate Open-Vocabulary Semantic Mapping by 3D Fusion of Voxel- and Instance-Level Layers",
+      "authors": [
+        "Timon Homberger",
+        "Finn Lukas Busch",
+        "Jes\u00fas Gerardo Ortega Peimbert",
+        "Quantao Yang",
+        "Olov Andersson"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03667v1",
+      "title": "ELAS: Efficient Pre-Training of Low-Rank Large Language Models via 2:4 Activation Sparsity",
+      "authors": [
+        "Jiaxi Li",
+        "Lu Yin",
+        "Li Shen",
+        "Jinjin Xu",
+        "Yuhui Liu",
+        "Wenwu Wang",
+        "Shiwei Liu",
+        "Xilu Wang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03660v1",
+      "title": "Stage Light is Sequence$^2$: Multi-Light Control via Imitation Learning",
+      "authors": [
+        "Zijian Zhao",
+        "Dian Jin",
+        "Zijing Zhou",
+        "Xiaoyu Zhang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03652v1",
+      "title": "AniMatrix: An Anime Video Generation Model that Thinks in Art, Not Physics",
+      "authors": [
+        "Tencent HY Team"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03648v1",
+      "title": "Agent-Based Modeling of Low-Emission Fertilizer Adoption for Dairy Farm Decarbonisation using Empirical Farm Data",
+      "authors": [
+        "Surya Jayakumar",
+        "Kieran Sullivan",
+        "John McLaughlin",
+        "Christine OMeara",
+        "Indrakshi Dey"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03644v1",
+      "title": "AdapShot: Adaptive Many-Shot In-Context Learning with Semantic-Aware KV Cache Reuse",
+      "authors": [
+        "Jie Ou",
+        "Jinyu Guo",
+        "Shiyao Guo",
+        "Yuang Li",
+        "Ruiqi Wu",
+        "Zhaokun Wang",
+        "Wenyi Li",
+        "Wenhong Tian"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03625v1",
+      "title": "Self-Improvement for Fast, High-Quality Plan Generation",
+      "authors": [
+        "Robert Gieselmann",
+        "Henrike von Huelsen",
+        "Mihai Samson",
+        "Marie-Christine Meyer",
+        "Dariusz Piotrowski",
+        "Oleksandr Radomskyi",
+        "Justin Okamoto",
+        "Turan Gojayev",
+        "Michael Painter",
+        "Gavin Brown",
+        "Federico Pecora",
+        "Jeremy L. Wyatt"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03609v1",
+      "title": "Where Paths Split: Localized, Calibrated Control of Moral Reasoning in Large Language Models",
+      "authors": [
+        "Chenchen Yuan",
+        "Zheyu Zhang",
+        "Gjergji Kasneci"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03604v1",
+      "title": "Multi-Agent Strategic Games with LLMs",
+      "authors": [
+        "Maxim Chupilkin"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03598v1",
+      "title": "Unifying Dynamical Systems and Graph Theory to Mechanistically Understand Computation in Neural Networks",
+      "authors": [
+        "Jatin Sharma",
+        "Danyal Akarca",
+        "Dan F. M Goodman"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03596v1",
+      "title": "Workspace-Bench 1.0: Benchmarking AI Agents on Workspace Tasks with Large-Scale File Dependencies",
+      "authors": [
+        "Zirui Tang",
+        "Xuanhe Zhou",
+        "Yumou Liu",
+        "Linchun Li",
+        "Weizheng Wang",
+        "Hongzhang Huang",
+        "Jun Zhou",
+        "Jiachen Song",
+        "Shaoli Yu",
+        "Jinqi Wang",
+        "Zihang Zhou",
+        "Hongyi Zhou",
+        "Yuting Lv",
+        "Jinyang Li",
+        "Jiashuo Liu",
+        "Ruoyu Chen",
+        "Chunwei Liu",
+        "GuoLiang Li",
+        "Jihua Kang",
+        "Fan Wu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03588v1",
+      "title": "Flow Matching on Symmetric Spaces",
+      "authors": [
+        "Francesco Ruscelli",
+        "Ferdinando Zanchetta",
+        "Rita Fioresi"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03571v1",
+      "title": "PatRe: A Full-Stage Office Action and Rebuttal Generation Benchmark for Patent Examination",
+      "authors": [
+        "Qiyao Wang",
+        "Xinyi Chen",
+        "Longze Chen",
+        "Hongbo Wang",
+        "Hamid Alinejad-Rokny",
+        "Yuan Lin",
+        "Min Yang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03570v1",
+      "title": "Disentangling Shared and Task-Specific Representations from Multi-Modal Clinical Data",
+      "authors": [
+        "He Lyu",
+        "Huolin Zeng",
+        "Junren Wang",
+        "Huazhen Yang",
+        "Linchao He",
+        "Yong Chen",
+        "Zhirui Li",
+        "Andreas Maier",
+        "Siming Bayer",
+        "Huan Song"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03562v1",
+      "title": "HeadQ: Model-Visible Distortion and Score-Space Correction for KV-Cache Quantization",
+      "authors": [
+        "Jorge L. Ruiz Williams"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03548v1",
+      "title": "PerFlow: Physics-Embedded Rectified Flow for Efficient Reconstruction and Uncertainty Quantification of Spatiotemporal Dynamics",
+      "authors": [
+        "Hao Zhou",
+        "Rui Zhang",
+        "Han Wan",
+        "Hao Sun"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03547v1",
+      "title": "Erase Persona, Forget Lore: Benchmarking Multimodal Copyright Unlearning in Large Vision Language Models",
+      "authors": [
+        "JuneHyoung Kwon",
+        "JungMin Yun",
+        "YoungBin Kim"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03546v1",
+      "title": "ProgramBench: Can Language Models Rebuild Programs From Scratch?",
+      "authors": [
+        "John Yang",
+        "Kilian Lieret",
+        "Jeffrey Ma",
+        "Parth Thakkar",
+        "Dmitrii Pedchenko",
+        "Sten Sootla",
+        "Emily McMilin",
+        "Pengcheng Yin",
+        "Rui Hou",
+        "Gabriel Synnaeve",
+        "Diyi Yang",
+        "Ofir Press"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03544v1",
+      "title": "DALPHIN: Benchmarking Digital Pathology AI Copilots Against Pathologists on an Open Multicentric Dataset",
+      "authors": [
+        "Carlijn Lems",
+        "Sander Moonemans",
+        "Nat\u00e1lie Klub\u00ed\u010dkov\u00e1",
+        "Biagio Brattoli",
+        "Taebum Lee",
+        "Seokhwi Kim",
+        "Veronica Vilaplana",
+        "Laura Pons",
+        "Sapir Hochman",
+        "Mauricio Eduardo Su\u00e1rez-Franck",
+        "Pedro Luis Fernandez",
+        "Julius Drachneris",
+        "Donatas Petroska",
+        "Renaldas Augulis",
+        "Arvydas Laurinavicius",
+        "Domingos Oliveira",
+        "Diana Montezuma",
+        "Anouk B. Bouwmeester",
+        "Dominique van Midden",
+        "Anne-Marie Vos",
+        "Shoko Vos",
+        "Jolique van Ipenburg",
+        "Maschenka Balkenhol",
+        "Koen Winkler",
+        "Iris Nagtegaal",
+        "Konnie Hebeda",
+        "Uta Flucke",
+        "Katrien Gr\u00fcnberg",
+        "Josef Skopal",
+        "Brinder S. Chohan",
+        "Jordi Temprana-Salvador",
+        "Enrico Munari",
+        "Luca Cima",
+        "Giulia Querzoli",
+        "Yosamin Gonzalez Belisario",
+        "Jaeike W. Faber",
+        "Geert J. L. H. van Leenders",
+        "Jan H. von der Th\u00fcsen",
+        "Lodewijk A. A. Brosens",
+        "Ronald R. de Krijger",
+        "Pieter Wesseling",
+        "Sandrine Florquin",
+        "Mateusz Maniewski",
+        "Adam Kowalewski",
+        "Robert Barna",
+        "Dina Tiniakos",
+        "Joan Lop Gros",
+        "Rogier Donders",
+        "Jake S. F. Maurits",
+        "Ming Yang Lu",
+        "Chengkuan Chen",
+        "Faisal Mahmood",
+        "Jeroen van der Laak",
+        "Nadieh Khalili",
+        "Fr\u00e9d\u00e9rique Meeuwsen",
+        "Francesco Ciompi"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03537v1",
+      "title": "A Skill-Based AI Agentic Pipeline for Library of Congress Subject Indexing",
+      "authors": [
+        "Eric H. C. Chow"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03520v1",
+      "title": "Parametrizing Convex Sets Using Sublinear Neural Networks",
+      "authors": [
+        "Eloi Martinet"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03514v1",
+      "title": "Revisiting Graph-Tokenizing Large Language Models: A Systematic Evaluation of Graph Token Understanding",
+      "authors": [
+        "Zhongjian Zhang",
+        "Yue Yu",
+        "Mengmei Zhang",
+        "Junping Du",
+        "Xiao Wang",
+        "Chuan Shi"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03512v1",
+      "title": "Brainrot: Deskilling and Addiction are Overlooked AI Risks",
+      "authors": [
+        "Ilias Chalkidis",
+        "Anders S\u00f8gaard"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03511v1",
+      "title": "Meta-Inverse Physics-Informed Neural Networks for High-Dimensional Ordinary Differential Equations",
+      "authors": [
+        "Zhao Wei",
+        "Kenneth Hor Cheng Koh",
+        "Sheng Yuan Chin",
+        "James Chun Yip Chan",
+        "Chin Chun Ooi",
+        "Yew-Soon Ong"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03509v1",
+      "title": "BFORE: Butterfly-Firefly Optimized Retinex Enhancement for Low-Light Image Quality Improvement",
+      "authors": [
+        "Ahmed Cherif"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03491v1",
+      "title": "Real-Time Evaluation of Autonomous Systems under Adversarial Attacks",
+      "authors": [
+        "Adithya Mohan",
+        "Xujun Xie",
+        "Venkatesh Thirugnana Sambandham",
+        "Torsten Sch\u00f6n"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03485v1",
+      "title": "MHPR: Multidimensional Human Perception and Reasoning Benchmark for Large Vision-Languate Models",
+      "authors": [
+        "Kangkang Wang",
+        "Qinting Jiang",
+        "Wanping Zhang",
+        "Bowen Ren",
+        "Shengzhao Wen"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03482v1",
+      "title": "MEMSAD: Gradient-Coupled Anomaly Detection for Memory Poisoning in Retrieval-Augmented Agents",
+      "authors": [
+        "Ishrith Gowda"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03476v1",
+      "title": "CuraView: A Multi-Agent Framework for Medical Hallucination Detection with GraphRAG-Enhanced Knowledge Verification",
+      "authors": [
+        "Severin Ye",
+        "Xiao Kong",
+        "Xiaopeng He",
+        "Guangsu Yan",
+        "Dongsuk Oh"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03472v1",
+      "title": "Detecting Stealth Sycophancy in Mental-Health Dialogue with Dynamic Emotional Signature Graphs",
+      "authors": [
+        "Tianze Han",
+        "Beining Xu",
+        "Hanbo Zhang",
+        "Yongming Lu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03465v1",
+      "title": "FINER-SQL: Boosting Small Language Models for Text-to-SQL",
+      "authors": [
+        "Thanh Dat Hoang",
+        "Thanh Trung Huynh",
+        "Matthias Weidlich",
+        "Thanh Tam Nguyen",
+        "Tong Chen",
+        "Hongzhi Yin",
+        "Quoc Viet Hung Nguyen"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03462v1",
+      "title": "Learning Generalizable Action Representations via Pre-training AEMG",
+      "authors": [
+        "Zhenghao Huang",
+        "Huilin Yao",
+        "Kaikai Wang",
+        "Lin Shu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03460v1",
+      "title": "FinSTaR: Towards Financial Reasoning with Time Series Reasoning Models",
+      "authors": [
+        "Seunghan Lee",
+        "Jun Seo",
+        "Jaehoon Lee",
+        "Sungdong Yoo",
+        "Minjae Kim",
+        "Tae Yoon Lim",
+        "Dongwan Kang",
+        "Hwanil Choi",
+        "Soonyoung Lee",
+        "Wonbin Ahn"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03441v1",
+      "title": "Exposing LLM Safety Gaps Through Mathematical Encoding:New Attacks and Systematic Analysis",
+      "authors": [
+        "Haoyu Zhang",
+        "Mohammad Zandsalimy",
+        "Shanu Sushmita"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03430v1",
+      "title": "DynaTab: Dynamic Feature Ordering as Neural Rewiring for High-Dimensional Tabular Data",
+      "authors": [
+        "Al Zadid Sultan Bin Habib",
+        "Gianfranco Doretto",
+        "Donald A. Adjeroh"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03426v1",
+      "title": "Replacing Parameters with Preferences: Federated Alignment of Heterogeneous Vision-Language Models",
+      "authors": [
+        "Shule Lu",
+        "Yujing Wang",
+        "Hainan Zhang",
+        "Xiaoshan Yang",
+        "Hongwei Zheng",
+        "Yongxin Tong",
+        "Changsheng Xu",
+        "Zhiming Zheng"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03423v1",
+      "title": "Adaptive Dual-Path Framework for Covert Semantic Communication",
+      "authors": [
+        "Xi Yu",
+        "Weicai Li",
+        "Lin Yin",
+        "Tiejun Lv"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03420v1",
+      "title": "Deepfake Audio Detection Using Self-supervised Fusion Representations",
+      "authors": [
+        "Khalid Zaman",
+        "Qixuan Huang",
+        "Muhammad Uzair",
+        "Masashi Unoki"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03413v1",
+      "title": "Learning to Theorize the World from Observation",
+      "authors": [
+        "Doojin Baek",
+        "Gyubin Lee",
+        "Junyeob Baek",
+        "Hosung Lee",
+        "Sungjin Ahn"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03412v1",
+      "title": "Smart Passive Acoustic Monitoring: Embedding a Classifier on AudioMoth Microcontroller",
+      "authors": [
+        "Louis Lerbourg",
+        "Paul Peyret",
+        "Juliette Linossier",
+        "Marielle Malfante"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03410v1",
+      "title": "Geometry over Density: Few-Shot Cross-Domain OOD Detection",
+      "authors": [
+        "Shawn Li",
+        "You Qin",
+        "Jiate Li",
+        "Charith Peris",
+        "Lisa Bauer",
+        "Roger Zimmermann",
+        "Yue Zhao"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03409v1",
+      "title": "Robust Agent Compensation (RAC): Teaching AI Agents to Compensate",
+      "authors": [
+        "Srinath Perera",
+        "Kaviru Hapuarachchi",
+        "Frank Leymann",
+        "Rania Khalaf"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03408v1",
+      "title": "Discovering Reinforcement Learning Interfaces with Large Language Models",
+      "authors": [
+        "Akshat Singh Jaswal",
+        "Ashish Baghel",
+        "Paras Chopra"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03395v1",
+      "title": "APEX: Large-scale Multi-task Aesthetic-Informed Popularity Prediction for AI-Generated Music",
+      "authors": [
+        "Jaavid Aktar Husain",
+        "Dorien Herremans"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03391v1",
+      "title": "A Fast Model Counting Algorithm for Two-Variable Logic with Counting and Modulo Counting Quantifiers",
+      "authors": [
+        "Shixin Sun",
+        "Astrid Klipfel",
+        "Ond\u0159ej Ku\u017eelka",
+        "Yuanhong Wang",
+        "Yi Chang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03390v1",
+      "title": "Enhancing Self-Supervised Talking Head Forgery Detection via a Training-Free Dual-System Framework",
+      "authors": [
+        "Ke Liu",
+        "Jiwei Wei",
+        "Shuchang Zhou",
+        "Yutong Xiao",
+        "Ruikun Chai",
+        "Yitong Qin",
+        "Yuyang Zhou",
+        "Yang Yang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03386v1",
+      "title": "Local Truncation Error-Guided Neural ODEs for Large Scale Traffic Forecasting",
+      "authors": [
+        "Xiao Zhang",
+        "Yafei Li",
+        "Ruixiang Wang",
+        "Wei Wei",
+        "Shuo He",
+        "Mingliang Xu"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03383v1",
+      "title": "GeoDecider: A Coarse-to-Fine Agentic Workflow for Explainable Lithology Classification",
+      "authors": [
+        "Jiahao Wang",
+        "Mingyue Cheng",
+        "Yitong Zhou",
+        "Qingyang Mao",
+        "Xiaoyu Tao",
+        "Qi Liu",
+        "Enhong Chen"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03361v1",
+      "title": "ReasonAudio: A Benchmark for Evaluating Reasoning Beyond Matching in Text-Audio Retrieval",
+      "authors": [
+        "Honglei Zhang",
+        "Yuting Chen",
+        "Chenpeng Hu",
+        "Siyue Zhang",
+        "Yilei Shi"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03354v1",
+      "title": "What Happens Inside Agent Memory? Circuit Analysis from Emergence to Diagnosis",
+      "authors": [
+        "Xutao Mao",
+        "Jinman Zhao",
+        "Gerald Penn",
+        "Cong Wang"
+      ],
+      "published_date": "2026-05-05"
+    },
+    {
+      "paper_id": "2605.03353v1",
+      "title": "SkCC: Portable and Secure Skill Compilation for Cross-Framework LLM Agents",
+      "authors": [
+        "Yipeng Ouyang",
+        "Yi Xiao",
+        "Yuhao Gu",
+        "Xianwei Zhang"
+      ],
+      "published_date": "2026-05-05"
+    }
+  ]
+}
