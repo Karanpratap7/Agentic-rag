@@ -106,6 +106,14 @@ def render_message(role: str, content: str) -> None:
 
 def main() -> None:
     """Run the Streamlit app loop."""
+    from pathlib import Path
+    if not Path("data/index.faiss").exists():
+        st.error(
+            "No FAISS index found. Please run `python ingest.py` first to "
+            "ingest the arXiv corpus before starting the app."
+        )
+        st.stop()
+        
     load_dotenv()
     st.set_page_config(page_title=APP_TITLE, layout="wide")
     st.title(APP_TITLE)
