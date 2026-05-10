@@ -37,14 +37,29 @@ def _load_store() -> tuple[faiss.Index, list[dict[str, Any]]]:
     return index, metadata
 
 
+import time
+
 def rewrite_query(query: str) -> str:
     """Rewrite query for technical semantic retrieval quality."""
-    # DECISION: Query rewriting chosen over hybrid search because the corpus is homogeneous (arXiv CS papers) — keyword matching adds less value than semantic precision on technical terminology. Rewriting improves recall by bridging informal user phrasing to formal academic language.
-    try:
-        model = _build_model()
-        return model.invoke(REWRITE_PROMPT.format(query=query)).content.strip()
-    except Exception:
-        return query
+    # DECISION: Query rewriting chosen over hybrid search because the corpus
+    # is homogeneous (arXiv CS papers) — keyword matching adds less value
+    # than semantic precision. Rewriting improves recall by bridging informal
+    # user phrasing to formal academic language.
+    max_attempts = 3
+    for attempt in range(1, max_attempts + 1):
+        try:
+            model = _build_model()
+            return model.invoke(REWRITE_PROMPT.format(query=query)).content.strip()
+        except Exception as exc:
+            err_str = str(exc)
+            if "429" in err_str and attempt < max_attempts:
+                wait = 5 * attempt
+                print(f"[retrieval] Rate limited on rewrite "
+                      f"(attempt {attempt}), waiting {wait}s...")
+                time.sleep(wait)
+            else:
+                return query  # Fall back to original query on final failure
+    return query
 
 
 def retrieve_chunks(query: str, trace: list[dict[str, Any]], rewrite_enabled: bool = True) -> tuple[str, list[dict[str, Any]]]:

@@ -15,6 +15,39 @@ from agent.memory import summarize_if_needed
 from agent.retrieval import retrieve_chunks
 from agent.tools import search_arxiv
 
+MIN_CALL_INTERVAL_SECONDS = 2.0  # Minimum gap between LLM API calls on free tier
+_last_call_time: float = 0.0
+
+import time
+
+def _invoke_with_retry(model, prompt: str, max_attempts: int = 3) -> str:
+    """Invoke LLM with exponential backoff on rate limit errors.
+    
+    # DECISION: Free-tier OpenRouter models have aggressive rate limits.
+    # Retry with backoff prevents 429 failures from crashing the agent
+    # graph mid-execution.
+    """
+    global _last_call_time
+    import time
+    elapsed = time.time() - _last_call_time
+    if elapsed < MIN_CALL_INTERVAL_SECONDS:
+        time.sleep(MIN_CALL_INTERVAL_SECONDS - elapsed)
+    _last_call_time = time.time()
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return model.invoke(prompt).content
+        except Exception as exc:
+            err_str = str(exc)
+            if "429" in err_str and attempt < max_attempts:
+                wait = 5 * attempt  # 5s, 10s
+                print(f"[llm] Rate limited (attempt {attempt}), "
+                      f"waiting {wait}s before retry...")
+                time.sleep(wait)
+            else:
+                raise
+    return ""
+
 INTENT_PROMPT = (
     "You are an intent classifier for a research assistant that has access to "
     "a local corpus of arXiv cs.AI papers from the last 90 days.\n\n"
@@ -116,7 +149,10 @@ def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
         return token
 
     try:
-        raw = _model().invoke(INTENT_PROMPT.format(query=query, summary=state.get("summary", ""))).content
+        raw = _invoke_with_retry(
+            _model(),
+            INTENT_PROMPT.format(query=query, summary=state.get("summary", ""))
+        )
         decision = _normalize_label(raw)
         if decision not in allowed:
             # Heuristic fallback for robust routing when model output is malformed.
@@ -163,7 +199,12 @@ def check_context(state: dict[str, Any]) -> dict[str, Any]:
     else:
         evidence = "\n".join([f"- {d.get('title', '')}: {d.get('chunk_text', '')[:240]}" for d in docs[:3]])
         try:
-            raw = _model().invoke(CONTEXT_CHECK_PROMPT.format(query=state.get("query", ""), evidence=evidence)).content
+            raw = _invoke_with_retry(
+                _model(),
+                CONTEXT_CHECK_PROMPT.format(
+                    query=state.get("query", ""), evidence=evidence
+                )
+            )
             candidate = raw.strip().split()[0].lower()
             decision = candidate if candidate in {"sufficient", "contradictory", "empty"} else "sufficient"
         except Exception:
@@ -218,7 +259,8 @@ def generate_answer(state: dict[str, Any]) -> dict[str, Any]:
     try:
         docs = state.get("retrieved_docs", [])
         doc_text = "\n".join([f"{d.get('title', '')}: {d.get('chunk_text', '')[:500]}" for d in docs[:6]])
-        answer = _model().invoke(
+        answer = _invoke_with_retry(
+            _model(),
             ANSWER_PROMPT.format(
                 summary=state.get("summary", ""),
                 messages=_messages_to_text(state.get("messages", [])),
@@ -226,7 +268,7 @@ def generate_answer(state: dict[str, Any]) -> dict[str, Any]:
                 tool_result=state.get("tool_result", ""),
                 query=state.get("query", ""),
             )
-        ).content.strip()
+        ).strip()
     except Exception as exc:
         answer = f"I encountered an internal error while composing the answer: {exc}"
         

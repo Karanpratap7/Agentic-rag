@@ -33,8 +33,20 @@ def summarize_if_needed(state: dict[str, Any]) -> dict[str, Any]:
         history = "\n".join([f"{m.get('role', 'unknown')}: {m.get('content', '')}" for m in old_messages])
         if not history.strip():
             return {"summary": state.get("summary", ""), "messages": get_recent_buffer(messages)}
-        model = _build_model()
-        summary_text = model.invoke(SUMMARY_PROMPT.format(history=history)).content.strip()
+        for attempt in range(1, 4):
+            try:
+                model = _build_model()
+                summary_text = model.invoke(
+                    SUMMARY_PROMPT.format(history=history)
+                ).content.strip()
+                break
+            except Exception as exc:
+                if "429" in str(exc) and attempt < 3:
+                    import time
+                    time.sleep(5 * attempt)
+                else:
+                    summary_text = state.get("summary", "")
+                    break
         return {"summary": summary_text, "messages": get_recent_buffer(messages)}
     except Exception as exc:
         return {
