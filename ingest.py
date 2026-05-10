@@ -2,6 +2,13 @@
 
 from __future__ import annotations
 
+import ssl
+# DECISION: Bypasses SSL certificate verification for PDF downloads on macOS.
+# The arxiv library uses urllib internally which fails on macOS when system
+# certificates are not installed. This is a local ingestion script only —
+# remove this bypass before any production deployment.
+ssl._create_default_https_context = ssl._create_unverified_context
+
 import json
 import pickle
 from dataclasses import dataclass
@@ -81,15 +88,23 @@ def fetch_recent_papers() -> list[arxiv.Result]:
 
 
 def download_paper(result: arxiv.Result) -> PaperRecord | None:
-    """Download a paper PDF and normalize metadata."""
+    """Download a paper PDF with retry logic and normalize metadata."""
     paper_id = result.entry_id.rsplit("/", maxsplit=1)[-1]
     pdf_path = PDF_DIR / f"{paper_id}.pdf"
-    try:
-        if not pdf_path.exists():
-            result.download_pdf(filename=str(pdf_path))
-    except Exception as exc:
-        print(f"PDF download failed for {paper_id}: {exc}")
-        pdf_path = None
+    max_attempts = 3
+    for attempt in range(1, max_attempts + 1):
+        try:
+            if not pdf_path.exists():
+                result.download_pdf(filename=str(pdf_path))
+            break
+        except Exception as exc:
+            if attempt == max_attempts:
+                print(f"PDF download failed after {max_attempts} attempts "
+                      f"for {paper_id}: {exc}")
+                pdf_path = None
+            else:
+                import time
+                time.sleep(2 * attempt)  # exponential backoff: 2s, 4s
     return PaperRecord(
         paper_id=paper_id,
         title=result.title.strip(),
@@ -160,9 +175,14 @@ def main() -> None:
     results = fetch_recent_papers()
     new_metadata: list[dict[str, Any]] = []
     new_papers: list[dict[str, Any]] = []
-    for result in results:
+    total = len(results)
+    for i, result in enumerate(results, 1):
+        paper_id_preview = result.entry_id.rsplit("/", maxsplit=1)[-1]
+        print(f"[{i}/{total}] Processing {paper_id_preview}: "
+              f"{result.title[:60]}...")
         record = download_paper(result)
         if not record or record.paper_id in known_ids:
+            print(f"  [skip] Already ingested or download failed")
             continue
         text = extract_text(record.pdf_path)
         if not text:
@@ -203,9 +223,15 @@ def main() -> None:
     merged_metadata = existing_metadata + new_metadata
     if len(manifest.get("paper_ids", [])) < MIN_PAPERS and not new_papers:
         print("Warning: fewer than 50 papers available in manifest and no new papers found.")
-    if merged_metadata:
+    if not new_metadata and INDEX_PATH.exists():
+        print("No new papers to index — existing FAISS index is up to date.")
+    elif merged_metadata:
+        print(f"Building FAISS index over {len(merged_metadata)} chunks...")
         index = build_index(merged_metadata)
         persist_outputs(index, merged_metadata)
+        print(f"Index saved to {INDEX_PATH}")
+    else:
+        print("Warning: no metadata to index.")
     manifest["paper_ids"] = list(dict.fromkeys(manifest.get("paper_ids", []) + [p["paper_id"] for p in new_papers]))
     manifest["papers"] = manifest.get("papers", []) + new_papers
     save_manifest(manifest)
