@@ -8,6 +8,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+SESSION_ID = datetime.now().strftime('%Y%m%d-%H%M%S')
+
 from agent.llm import build_chat_model
 from agent.memory import summarize_if_needed
 from agent.retrieval import retrieve_chunks
@@ -60,7 +62,7 @@ def _append_trace(state: dict[str, Any], node: str, decision: str, reasoning: st
     state.setdefault("trace", []).append(item)
     try:
         TRACE_DIR.mkdir(parents=True, exist_ok=True)
-        trace_path = TRACE_DIR / f"trace-{datetime.now().strftime('%Y%m%d')}.jsonl"
+        trace_path = TRACE_DIR / f"trace-{SESSION_ID}.jsonl"
         with trace_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(item) + "\n")
     except Exception:
