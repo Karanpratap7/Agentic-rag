@@ -9,7 +9,7 @@ from langchain_openai import ChatOpenAI
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 PRIMARY_MODEL = os.getenv("OPENROUTER_MODEL", "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free")
-FALLBACK_MODEL = os.getenv("OPENROUTER_FALLBACK_MODEL", PRIMARY_MODEL)
+FALLBACK_MODEL = os.getenv("OPENROUTER_FALLBACK_MODEL", "google/gemma-2-9b-it:free")
 
 
 def build_chat_model(*, temperature: float = 0.2, streaming: bool = False) -> ChatOpenAI:
@@ -24,7 +24,8 @@ def build_chat_model(*, temperature: float = 0.2, streaming: bool = False) -> Ch
             temperature=temperature,
             streaming=streaming,
         )
-    except Exception:
+    except Exception as exc:
+        print(f"[llm] Primary model failed ({exc}), falling back to {FALLBACK_MODEL}")
         return ChatOpenAI(
             model=FALLBACK_MODEL,
             api_key=api_key,
