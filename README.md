@@ -23,15 +23,18 @@ Production-grade agentic RAG assistant for recent arXiv AI papers using LangGrap
 User Query
    |
    v
-[classify_intent] ---> [ask_clarification] -> END
-   |                     [refuse] ----------> END
-   |                     [call_arxiv_tool] -> [generate_answer]
-   v
-[rewrite_query] -> [retrieve] -> [check_context] -> [generate_answer]
-                                   |                     |
-                                   +--> clarify/tool ----+
-                                                         v
-                                                   [update_memory] -> END
+[classify_intent] -----> [ask_clarification] -> END
+   |          |    |      [refuse] -----------> END
+   |          |    +----> [call_arxiv_tool] --+
+   |          |                               |
+   v          +----> [answer_from_memory] --> [generate_answer]
+[rewrite_query]                                      |
+   |                                                 v
+   v                                          [update_memory] -> END
+[check_context] --> [generate_answer]
+   |
+   +--> [ask_clarification] -> END
+   +--> [call_arxiv_tool] ---> [generate_answer]
 ```
 
 ## Decisions Log
@@ -62,7 +65,9 @@ Chunks use 800 characters with 100 overlap to preserve enough argument continuit
 - Retrieval may be sparse when PDFs have poor extractable text quality.
 - Intent classification can occasionally over-route broad queries to `retrieve` instead of `clarify`.
 - Tool outputs are concise previews and can miss important details beyond the first abstract characters.
-- Streaming fallback degrades to non-LLM token simulation if API streaming fails.
+- arXiv tool calls occasionally return HTTP 500 errors from the arXiv 
+API. The system handles this by falling back to corpus retrieval, 
+so the user receives a degraded but valid answer rather than an error.
 
 ## What I Would Do With Another Week
 
