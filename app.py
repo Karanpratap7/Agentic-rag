@@ -123,6 +123,7 @@ def main() -> None:
     state["query"] = user_query
     state["messages"] = st.session_state.messages
     state["turn_count"] = st.session_state.turn_count + 1
+    state["rewrite_enabled"] = True
     result = graph.invoke(state)
     st.session_state.turn_count = result.get("turn_count", state["turn_count"])
     st.session_state.agent_state = result

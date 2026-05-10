@@ -34,6 +34,7 @@ class AgentState(TypedDict, total=False):
     turn_count: int
     context_decision: str
     sources: list
+    rewrite_enabled: bool
 
 
 def _route_intent(state: AgentState) -> str:
