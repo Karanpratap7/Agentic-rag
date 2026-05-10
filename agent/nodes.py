@@ -16,13 +16,22 @@ from agent.retrieval import retrieve_chunks
 from agent.tools import search_arxiv
 
 INTENT_PROMPT = (
-    "You are an intent classifier for a research assistant. Given the user query and "
-    "conversation history, classify the intent as exactly one of:\n"
-    "- retrieve: question answerable from the arXiv corpus\n"
-    "- tool: needs live arXiv search (asking about very recent or specific papers)\n"
-    "- clarify: query is too ambiguous to retrieve effectively\n"
-    "- refuse: query is out of domain (not about AI research) or harmful\n"
-    "- answer_from_memory: answerable from conversation history alone\n"
+    "You are an intent classifier for a research assistant that has access to "
+    "a local corpus of arXiv cs.AI papers from the last 90 days.\n\n"
+    "Classify the user query as exactly one of:\n"
+    "- retrieve: question about AI research concepts, methods, or findings "
+    "that can be answered from the local paper corpus. Also use this for "
+    "questions referencing 'this dataset', 'these papers', 'the corpus', "
+    "'trends you see', or any question about what is IN the indexed collection.\n"
+    "- tool: needs a LIVE arXiv search — only use when the query explicitly "
+    "asks for papers published TODAY, THIS WEEK, by a SPECIFIC AUTHOR by name, "
+    "or by a specific arXiv paper ID.\n"
+    "- clarify: query is too vague to retrieve effectively (e.g. 'tell me about it', "
+    "'what do you think about AI?')\n"
+    "- refuse: query is completely unrelated to AI research (cooking, sports, etc.)\n"
+    "- answer_from_memory: answerable from conversation history alone "
+    "(e.g. 'summarize what we discussed', 'what did I ask earlier?')\n\n"
+    "When in doubt between retrieve and tool, prefer retrieve.\n\n"
     "Return ONLY the classification word, nothing else.\n"
     "Query: {query}\nHistory summary: {summary}"
 )
@@ -90,7 +99,7 @@ def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
         if decision not in allowed:
             # Heuristic fallback for robust routing when model output is malformed.
             lower_q = query.lower()
-            if any(k in lower_q for k in ["latest", "today", "this week", "new paper", "arxiv id", "arxiv:"]):
+            if any(k in lower_q for k in ["today", "this week", "last week", "arxiv id", "arxiv:", "by author"]):
                 decision = "tool"
             elif lower_q.strip():
                 decision = "retrieve"
@@ -99,7 +108,7 @@ def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
     except Exception:
         # Heuristic fallback if model invocation fails (e.g., missing API key/transient outage).
         lower_q = query.lower()
-        if any(k in lower_q for k in ["latest", "today", "this week", "new paper", "arxiv id", "arxiv:"]):
+        if any(k in lower_q for k in ["today", "this week", "last week", "arxiv id", "arxiv:", "by author"]):
             decision = "tool"
         elif lower_q.strip():
             decision = "retrieve"
@@ -142,9 +151,34 @@ def check_context(state: dict[str, Any]) -> dict[str, Any]:
 
 
 def call_arxiv_tool(state: dict[str, Any]) -> dict[str, Any]:
-    """Call arXiv tool for recency- or metadata-sensitive queries."""
-    result = search_arxiv(state.get("query", ""), max_results=5, trace=state.setdefault("trace", []))
-    _append_trace(state, "call_arxiv_tool", "tool_called", "Tool use handles live-paper lookup beyond indexed corpus.", state.get("query", ""), result)
+    """Call arXiv tool for recency/metadata queries; fall back to retrieval on failure."""
+    result = search_arxiv(
+        state.get("query", ""), max_results=5, trace=state.setdefault("trace", [])
+    )
+    if result.startswith("arXiv tool error:"):
+        # DECISION: On tool failure, fall back to corpus retrieval rather than 
+        # surfacing an API error to the user. Degraded retrieval is better than 
+        # an error message as context for generation.
+        _append_trace(
+            state, "call_arxiv_tool", "tool_failed_fallback",
+            "arXiv API failed; falling back to FAISS corpus retrieval.",
+            state.get("query", ""), "fallback_to_retrieve"
+        )
+        rewritten, docs = retrieve_chunks(
+            state.get("query", ""),
+            state.setdefault("trace", []),
+            rewrite_enabled=state.get("rewrite_enabled", True),
+        )
+        return {
+            "tool_result": "arXiv API unavailable. Answer based on indexed corpus.",
+            "retrieved_docs": docs,
+            "rewritten_query": rewritten,
+        }
+    _append_trace(
+        state, "call_arxiv_tool", "tool_called",
+        "Tool use handles live-paper lookup beyond indexed corpus.",
+        state.get("query", ""), result
+    )
     return {"tool_result": result}
 
 
