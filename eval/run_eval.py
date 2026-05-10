@@ -61,12 +61,25 @@ def print_table(rows: list[dict[str, Any]], title: str) -> None:
 def run_ablation(graph, questions: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Run retrieval ablation comparing query rewriting ON vs OFF."""
     # ABLATION: This demonstrates query rewriting actually improves retrieval — not just theoretical benefit
-    rows: list[dict[str, Any]] = []
+    summary = []
     selected = [q for q in questions if q["id"] in ABLATION_IDS]
     for question in selected:
-        rows.append(run_question(graph, question, rewrite_enabled=True))
-        rows.append(run_question(graph, question, rewrite_enabled=False))
-    return rows
+        res_on = run_question(graph, question, rewrite_enabled=True)
+        res_off = run_question(graph, question, rewrite_enabled=False)
+        delta = res_on["keywords_found"] - res_off["keywords_found"]
+        
+        print(f"Q{question['id']} | {question['question'][:40]:<40} | rewrite=ON  decision={res_on['decision']:<15} correct={res_on['decision_correct']}")
+        print(f"Q{question['id']} | {question['question'][:40]:<40} | rewrite=OFF decision={res_off['decision']:<15} correct={res_off['decision_correct']}")
+        print("-------")
+        print(f"Delta: keywords_found ON={res_on['keywords_found']} OFF={res_off['keywords_found']} improvement={delta}\n")
+        
+        summary.append({
+            "question_id": question["id"],
+            "rewrite_on": res_on,
+            "rewrite_off": res_off,
+            "keyword_delta": delta
+        })
+    return summary
 
 
 def main() -> None:
@@ -75,9 +88,11 @@ def main() -> None:
     questions = load_questions()
     base_rows = [run_question(graph, q, rewrite_enabled=True) for q in questions]
     print_table(base_rows, "Evaluation Results")
-    ablation_rows = run_ablation(graph, questions)
-    print_table(ablation_rows, "Ablation Results (Rewrite ON/OFF)")
-    payload = {"results": base_rows, "ablation": ablation_rows}
+    print("\nAblation Results (Rewrite ON vs OFF)")
+    print("=" * 40)
+    ablation_summary = run_ablation(graph, questions)
+    
+    payload = {"results": base_rows, "ablation_summary": ablation_summary}
     RESULTS_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"\nSaved results to {RESULTS_PATH}")
 
