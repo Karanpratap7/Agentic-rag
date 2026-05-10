@@ -108,9 +108,54 @@ REFUSE_TEMPLATE = "I can only help with AI research questions grounded in recent
 TRACE_DIR = Path("traces")
 
 
-def _model():
+def _model(is_fallback: bool = False):
     """Construct OpenRouter model client."""
-    return build_chat_model(temperature=0.2, streaming=False)
+    return build_chat_model(temperature=0.2, streaming=False, is_fallback=is_fallback)
+
+
+def _invoke_with_retry(model_factory, prompt: str, max_attempts: int = 3) -> str:
+    """Invoke LLM with exponential backoff on rate limit errors and dynamic fallback.
+    
+    # DECISION: Free-tier OpenRouter models have aggressive rate limits.
+    # Retry with backoff prevents 429 failures from crashing the agent
+    # graph mid-execution. If 429s persist or a 500 occurs, swaps to fallback model.
+    """
+    global _last_call_time
+    import time
+
+    # Try primary model
+    model = model_factory(is_fallback=False)
+    for attempt in range(1, max_attempts + 1):
+        elapsed = time.time() - _last_call_time
+        if elapsed < MIN_CALL_INTERVAL_SECONDS:
+            time.sleep(MIN_CALL_INTERVAL_SECONDS - elapsed)
+        _last_call_time = time.time()
+
+        try:
+            return model.invoke(prompt).content
+        except Exception as exc:
+            err_str = str(exc)
+            if "429" in err_str and attempt < max_attempts:
+                wait = 5 * attempt  # 5s, 10s
+                print(f"[llm] Rate limited (attempt {attempt}), "
+                      f"waiting {wait}s before retry...")
+                time.sleep(wait)
+            else:
+                print(f"[llm] Primary model failed ({err_str}), swapping to fallback model...")
+                break
+
+    # Try fallback model
+    fallback_model = model_factory(is_fallback=True)
+    elapsed = time.time() - _last_call_time
+    if elapsed < MIN_CALL_INTERVAL_SECONDS:
+        time.sleep(MIN_CALL_INTERVAL_SECONDS - elapsed)
+    _last_call_time = time.time()
+
+    try:
+        return fallback_model.invoke(prompt).content
+    except Exception as exc:
+        print(f"[llm] Fallback model also failed: {exc}")
+        raise
 
 
 def _append_trace(state: dict[str, Any], node: str, decision: str, reasoning: str, in_data: Any, out_data: Any) -> None:
@@ -150,7 +195,7 @@ def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
 
     try:
         raw = _invoke_with_retry(
-            _model(),
+            _model,
             INTENT_PROMPT.format(query=query, summary=state.get("summary", ""))
         )
         decision = _normalize_label(raw)
@@ -200,7 +245,7 @@ def check_context(state: dict[str, Any]) -> dict[str, Any]:
         evidence = "\n".join([f"- {d.get('title', '')}: {d.get('chunk_text', '')[:240]}" for d in docs[:3]])
         try:
             raw = _invoke_with_retry(
-                _model(),
+                _model,
                 CONTEXT_CHECK_PROMPT.format(
                     query=state.get("query", ""), evidence=evidence
                 )
@@ -260,7 +305,7 @@ def generate_answer(state: dict[str, Any]) -> dict[str, Any]:
         docs = state.get("retrieved_docs", [])
         doc_text = "\n".join([f"{d.get('title', '')}: {d.get('chunk_text', '')[:500]}" for d in docs[:6]])
         answer = _invoke_with_retry(
-            _model(),
+            _model,
             ANSWER_PROMPT.format(
                 summary=state.get("summary", ""),
                 messages=_messages_to_text(state.get("messages", [])),

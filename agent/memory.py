@@ -13,9 +13,9 @@ SUMMARY_PROMPT = (
 BUFFER_SIZE = 6
 
 
-def _build_model():
+def _build_model(is_fallback: bool = False):
     """Build OpenRouter chat model."""
-    return build_chat_model(temperature=0, streaming=False)
+    return build_chat_model(temperature=0, streaming=False, is_fallback=is_fallback)
 
 
 def get_recent_buffer(messages: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -33,21 +33,28 @@ def summarize_if_needed(state: dict[str, Any]) -> dict[str, Any]:
         history = "\n".join([f"{m.get('role', 'unknown')}: {m.get('content', '')}" for m in old_messages])
         if not history.strip():
             return {"summary": state.get("summary", ""), "messages": get_recent_buffer(messages)}
+        model = _build_model(is_fallback=False)
         for attempt in range(1, 4):
             try:
-                model = _build_model()
                 summary_text = model.invoke(
                     SUMMARY_PROMPT.format(history=history)
                 ).content.strip()
-                break
+                return {"summary": summary_text, "messages": get_recent_buffer(messages)}
             except Exception as exc:
                 if "429" in str(exc) and attempt < 3:
                     import time
                     time.sleep(5 * attempt)
                 else:
-                    summary_text = state.get("summary", "")
+                    print(f"[memory] Primary model failed ({exc}), swapping to fallback...")
                     break
-        return {"summary": summary_text, "messages": get_recent_buffer(messages)}
+        
+        try:
+            fallback_model = _build_model(is_fallback=True)
+            summary_text = fallback_model.invoke(SUMMARY_PROMPT.format(history=history)).content.strip()
+            return {"summary": summary_text, "messages": get_recent_buffer(messages)}
+        except Exception as exc:
+            print(f"[memory] Fallback model failed: {exc}")
+            return {"summary": state.get("summary", ""), "messages": get_recent_buffer(messages)}
     except Exception as exc:
         return {
             "summary": state.get("summary", ""),

@@ -24,9 +24,9 @@ REWRITE_PROMPT = (
 )
 
 
-def _build_model():
+def _build_model(is_fallback: bool = False):
     """Build OpenRouter model client for query rewriting."""
-    return build_chat_model(temperature=0, streaming=False)
+    return build_chat_model(temperature=0, streaming=False, is_fallback=is_fallback)
 
 
 def _load_store() -> tuple[faiss.Index, list[dict[str, Any]]]:
@@ -46,9 +46,9 @@ def rewrite_query(query: str) -> str:
     # than semantic precision. Rewriting improves recall by bridging informal
     # user phrasing to formal academic language.
     max_attempts = 3
+    model = _build_model(is_fallback=False)
     for attempt in range(1, max_attempts + 1):
         try:
-            model = _build_model()
             return model.invoke(REWRITE_PROMPT.format(query=query)).content.strip()
         except Exception as exc:
             err_str = str(exc)
@@ -58,8 +58,15 @@ def rewrite_query(query: str) -> str:
                       f"(attempt {attempt}), waiting {wait}s...")
                 time.sleep(wait)
             else:
-                return query  # Fall back to original query on final failure
-    return query
+                print(f"[retrieval] Primary model failed ({err_str}), swapping to fallback...")
+                break
+
+    try:
+        fallback_model = _build_model(is_fallback=True)
+        return fallback_model.invoke(REWRITE_PROMPT.format(query=query)).content.strip()
+    except Exception as exc:
+        print(f"[retrieval] Fallback model failed: {exc}")
+        return query
 
 
 def retrieve_chunks(query: str, trace: list[dict[str, Any]], rewrite_enabled: bool = True) -> tuple[str, list[dict[str, Any]]]:
