@@ -13,7 +13,6 @@ from agent.nodes import (
     classify_intent,
     generate_answer,
     refuse,
-    retrieve_node,
     rewrite_query_node,
     update_memory,
 )
@@ -59,7 +58,6 @@ def build_graph():
     graph = StateGraph(AgentState)
     graph.add_node("classify_intent", classify_intent)
     graph.add_node("rewrite_query", rewrite_query_node)
-    graph.add_node("retrieve", retrieve_node)
     graph.add_node("check_context", check_context)
     graph.add_node("call_arxiv_tool", call_arxiv_tool)
     graph.add_node("generate_answer", generate_answer)
@@ -78,8 +76,7 @@ def build_graph():
             "answer_from_memory": "generate_answer",
         },
     )
-    graph.add_edge("rewrite_query", "retrieve")
-    graph.add_edge("retrieve", "check_context")
+    graph.add_edge("rewrite_query", "check_context")
     graph.add_conditional_edges(
         "check_context",
         _route_context,

@@ -107,6 +107,9 @@ def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
     return {"decision": decision}
 
 
+# DECISION: retrieve step merged into rewrite_query_node because 
+# retrieval is always preceded by rewriting — a separate node added 
+# graph complexity without observability benefit.
 def rewrite_query_node(state: dict[str, Any]) -> dict[str, Any]:
     """Rewrite and retrieve chunks for improved semantic recall."""
     rewritten, docs = retrieve_chunks(
@@ -117,12 +120,6 @@ def rewrite_query_node(state: dict[str, Any]) -> dict[str, Any]:
     _append_trace(state, "rewrite_query", "rewritten", "Rewriting aligns user phrasing to technical corpus terminology.", state.get("query", ""), rewritten)
     return {"rewritten_query": rewritten, "retrieved_docs": docs}
 
-
-def retrieve_node(state: dict[str, Any]) -> dict[str, Any]:
-    """No-op retrieval node boundary because retrieval is bundled with rewrite for trace clarity."""
-    docs = state.get("retrieved_docs", [])
-    _append_trace(state, "retrieve", "retrieved", "Separate node preserves explicit graph step for observability.", state.get("rewritten_query", ""), docs)
-    return {"retrieved_docs": docs}
 
 
 def check_context(state: dict[str, Any]) -> dict[str, Any]:
