@@ -136,7 +136,7 @@ def check_context(state: dict[str, Any]) -> dict[str, Any]:
         except Exception:
             decision = "sufficient"
     _append_trace(state, "check_context", decision, "Context quality controls answer/tool/clarification branch.", state.get("query", ""), decision)
-    return {"context_decision": decision}
+    return {"context_decision": decision, "context_contradictory": decision == "contradictory"}
 
 
 def call_arxiv_tool(state: dict[str, Any]) -> dict[str, Any]:
@@ -171,6 +171,10 @@ def generate_answer(state: dict[str, Any]) -> dict[str, Any]:
         ).content.strip()
     except Exception as exc:
         answer = f"I encountered an internal error while composing the answer: {exc}"
+        
+    if state.get("context_contradictory"):
+        answer = "⚠️ Note: Retrieved sources contain conflicting information on this topic.\n\n" + answer
+        
     sources = _source_list(state.get("retrieved_docs", []))
     _append_trace(state, "generate_answer", "answered", "Final synthesis step grounded in available evidence and memory.", state.get("query", ""), answer)
     return {"answer": answer, "sources": sources}

@@ -33,6 +33,7 @@ class AgentState(TypedDict, total=False):
     turn_count: int
     context_decision: str
     sources: list
+    context_contradictory: bool
     rewrite_enabled: bool
 
 
@@ -46,7 +47,7 @@ def _route_context(state: AgentState) -> str:
     decision = state.get("context_decision", "empty")
     query = state.get("query", "")
     specific = any(token in query.lower() for token in ["latest", "this week", "last month", "by ", "paper"])
-    if decision == "sufficient":
+    if decision in ("sufficient", "contradictory"):
         return "generate_answer"
     if decision == "empty" and specific:
         return "call_arxiv_tool"
