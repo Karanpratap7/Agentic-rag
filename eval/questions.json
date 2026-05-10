@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "question": "What are the main approaches to improving LLM reasoning?",
+    "expected_behavior": "retrieve",
+    "expected_keywords": ["chain-of-thought", "reasoning", "prompting"],
+    "notes": "Standard retrieval — should find relevant cs.AI papers"
+  },
+  {
+    "id": 2,
+    "question": "Find me the latest papers on multimodal transformers published this week",
+    "expected_behavior": "tool",
+    "expected_keywords": ["multimodal", "transformer"],
+    "notes": "Recency signal triggers arXiv tool over corpus retrieval"
+  },
+  {
+    "id": 3,
+    "question": "What do you think about AI?",
+    "expected_behavior": "clarify",
+    "expected_keywords": [],
+    "notes": "Too broad — should ask for clarification"
+  },
+  {
+    "id": 4,
+    "question": "What is the best recipe for pasta carbonara?",
+    "expected_behavior": "refuse",
+    "expected_keywords": [],
+    "notes": "Out of domain — should refuse politely"
+  },
+  {
+    "id": 5,
+    "question": "How does RLHF compare to DPO for alignment?",
+    "expected_behavior": "retrieve",
+    "expected_keywords": ["RLHF", "DPO", "alignment", "preference"],
+    "notes": "Technical comparison — good retrieval test"
+  },
+  {
+    "id": 6,
+    "question": "Find papers by Yann LeCun from last month",
+    "expected_behavior": "tool",
+    "expected_keywords": ["LeCun"],
+    "notes": "Author + recency = tool call"
+  },
+  {
+    "id": 7,
+    "question": "Tell me about it",
+    "expected_behavior": "clarify",
+    "expected_keywords": [],
+    "notes": "No referent — must clarify"
+  },
+  {
+    "id": 8,
+    "question": "What is the capital of France?",
+    "expected_behavior": "refuse",
+    "expected_keywords": [],
+    "notes": "Out of domain general knowledge"
+  },
+  {
+    "id": 9,
+    "question": "What are the limitations of RAG systems according to recent papers?",
+    "expected_behavior": "retrieve",
+    "expected_keywords": ["RAG", "retrieval", "limitations"],
+    "notes": "Should retrieve AND potentially surface contradictions"
+  },
+  {
+    "id": 10,
+    "question": "Summarize everything we have discussed so far",
+    "expected_behavior": "answer_from_memory",
+    "expected_keywords": [],
+    "notes": "Tests memory — should answer from conversation history"
+  }
+]
