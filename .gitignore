@@ -1,0 +1,6 @@
+__pycache__/
+.env
+data/pdfs/
+traces/*.jsonl
+eval/results.json
+.venv/
