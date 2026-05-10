@@ -135,7 +135,12 @@ def main() -> None:
             with st.expander("Rewritten query"):
                 st.write(result["rewritten_query"])
         draft = result.get("answer", "I do not have an answer yet.")
-        streamed_text = st.write_stream(stream_answer(draft))
+        try:
+            streamed_text = st.write_stream(stream_answer(draft))
+        except Exception as e:
+            st.error(str(e))
+            streamed_text = "Error generating response."
+            
         if result.get("sources"):
             with st.expander("Sources"):
                 for source in result["sources"]:
