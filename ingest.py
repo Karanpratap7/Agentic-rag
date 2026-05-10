@@ -101,12 +101,16 @@ def download_paper(result: arxiv.Result) -> PaperRecord | None:
 
 
 def extract_text(pdf_path: Path | None) -> str:
-    """Extract full text from PDF, returning an empty string on failure."""
+    """Extract full text from PDF, returning empty string on failure."""
     if pdf_path is None:
         return ""
     try:
         reader = PdfReader(str(pdf_path))
-        return "\n".join(page.extract_text() or "" for page in reader.pages).strip()
+        text = "\n".join(page.extract_text() or "" for page in reader.pages).strip()
+        if len(text) < 500:
+            # Too short — likely a scanned PDF or extraction failure
+            return ""
+        return text
     except Exception:
         return ""
 
@@ -162,8 +166,20 @@ def main() -> None:
             continue
         text = extract_text(record.pdf_path)
         if not text:
-            # Fall back to abstract text so papers are still retrievable when PDF parsing/download fails.
-            text = record.abstract
+            # DECISION: When PDF extraction fails, construct a richer text
+            # block from title + authors + abstract to maximize retrieval
+            # signal from available metadata. This ensures every paper is
+            # retrievable even without full text.
+            authors_str = ", ".join(record.authors[:5])
+            if len(record.authors) > 5:
+                authors_str += f" et al. ({len(record.authors)} authors)"
+            text = (
+                f"Title: {record.title}\n"
+                f"Authors: {authors_str}\n"
+                f"Published: {record.published_date}\n"
+                f"Abstract: {record.abstract}"
+            )
+            print(f"  [fallback] Using abstract for: {record.paper_id}")
         for idx, chunk in enumerate(chunk_text(text)):
             new_metadata.append(
                 {
@@ -196,6 +212,12 @@ def main() -> None:
     print(f"Ingested papers (new): {len(new_papers)}")
     print(f"Total papers tracked: {len(manifest['paper_ids'])}")
     print(f"Total chunks indexed: {len(merged_metadata)}")
+    pdf_success = sum(
+        1 for p in new_papers 
+        if (PDF_DIR / f"{p['paper_id']}.pdf").exists()
+    )
+    print(f"PDFs successfully downloaded: {pdf_success}/{len(new_papers)}")
+    print(f"Papers using abstract fallback: {len(new_papers) - pdf_success}/{len(new_papers)}")
 
 
 if __name__ == "__main__":
