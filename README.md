@@ -68,6 +68,11 @@ Chunks use 800 characters with 100 overlap to preserve enough argument continuit
 - arXiv tool calls occasionally return HTTP 500 errors from the arXiv 
 API. The system handles this by falling back to corpus retrieval, 
 so the user receives a degraded but valid answer rather than an error.
+- Full-text PDF extraction success rate varies by paper. When PDFs 
+fail to parse (scanned documents, download errors), the system falls 
+back to title + abstract chunks. This limits answer depth for synthesis 
+questions but preserves basic retrievability for all indexed papers. 
+Run `python ingest.py` output shows the PDF success rate for your corpus.
 
 ## What I Would Do With Another Week
 
