@@ -65,8 +65,7 @@ def stream_answer(draft: str) -> Generator[str, None, None]:
                         except json.JSONDecodeError:
                             pass
     except Exception as e:
-        for token in draft.split():
-            yield token + " "
+        raise RuntimeError(f"Streaming failed: {e}") from e
 
 
 def init_session() -> None:
