@@ -12,8 +12,8 @@ PRIMARY_MODEL = os.getenv("OPENROUTER_MODEL", "google/gemma-4-26b-a4b-it:free")
 FALLBACK_MODEL = os.getenv("OPENROUTER_FALLBACK_MODEL", "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free")
 
 
-def build_chat_model(*, temperature: float = 0.2, streaming: bool = False, is_fallback: bool = False):
-    """Create chat model with env-loaded API key and fallback support."""
+def build_chat_model(*, temperature: float = 0.2, streaming: bool = False, is_fallback: bool = False) -> ChatOpenAI:
+    """Create OpenRouter chat model with env-loaded API key and fallback support."""
     load_dotenv()
     api_key = os.getenv("OPENROUTER_API_KEY", "")
     model_name = FALLBACK_MODEL if is_fallback else PRIMARY_MODEL
