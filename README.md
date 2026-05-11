@@ -60,6 +60,9 @@ Memory architecture: We implement conversation memory (recent turns buffer) and 
 **Chunking strategy (800/100, why)**  
 Chunks use 800 characters with 100 overlap to preserve enough argument continuity for technical text while still allowing precise retrieval granularity. Overlap protects against boundary loss for equations, definitions, and method details split across pages.
 
+**Rate limit optimization (free-tier LLM calls)**  
+The free-tier OpenRouter models allow ~10-20 requests/minute shared across all users. The original design made 4 LLM calls per turn (classify → rewrite → check_context → generate), which hit limits after 2-3 questions. Optimizations applied: (1) check_context replaced with keyword-overlap heuristic, saving 1 LLM call per turn; (2) rewrite step skipped for already-technical queries; (3) doc context truncated from 6×500 to 4×300 chars; (4) prompt templates shortened by ~40%. Net result: 2-3 LLM calls per turn on technical queries, 3 on vague ones.
+
 ## Failure Modes Observed During Testing
 
 - Retrieval may be sparse when PDFs have poor extractable text quality.

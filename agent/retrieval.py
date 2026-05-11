@@ -17,10 +17,11 @@ METADATA_PATH = Path("data/metadata.pkl")
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 TOP_K = 6
 REWRITE_PROMPT = (
-    "You are a retrieval optimization assistant. Rewrite the following user query "
-    "to maximize recall from a corpus of arXiv AI research papers. Use precise technical "
-    "terminology, expand acronyms, add relevant synonyms. Return ONLY the rewritten query, "
-    "no explanation.\nOriginal query: {query}"
+    "Rewrite for arXiv cs.AI paper retrieval. "
+    "Use technical terms, expand acronyms. "
+    "Return rewritten query only.\n"
+    "Query: {query}\n"
+    "Rewritten:"
 )
 
 

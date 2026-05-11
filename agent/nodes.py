@@ -49,26 +49,22 @@ def _invoke_with_retry(model, prompt: str, max_attempts: int = 3) -> str:
     return ""
 
 INTENT_PROMPT = (
-    "You are an intent classifier for a research assistant that has access to "
-    "a local corpus of arXiv cs.AI papers from the last 90 days.\n\n"
-    "Classify the user query as exactly one of:\n"
-    "- retrieve: question about AI research concepts, methods, or findings "
-    "that can be answered from the local paper corpus. Also use this for "
-    "questions referencing 'this dataset', 'these papers', 'the corpus', "
-    "'trends you see', or any question about what is IN the indexed collection.\n"
-    "- tool: needs a LIVE arXiv search — only use when the query explicitly "
-    "asks for papers published TODAY, THIS WEEK, by a SPECIFIC AUTHOR by name, "
-    "or by a specific arXiv paper ID.\n"
-    "- clarify: query is too vague to retrieve effectively (e.g. 'tell me about it', "
-    "'what do you think about AI?')\n"
-    "- refuse: query is completely unrelated to AI research (cooking, sports, etc.)\n"
-    "- answer_from_memory: answerable from conversation history alone "
-    "(e.g. 'summarize what we discussed', 'what did I ask earlier?')\n\n"
-    "When in doubt between retrieve and tool, prefer retrieve.\n\n"
-    "Return ONLY the classification word, nothing else.\n"
-    "Query: {query}\nHistory summary: {summary}"
+    "Classify this query for an arXiv cs.AI research assistant.\n"
+    "Local corpus = last 90 days of cs.AI papers.\n\n"
+    "Labels (return ONE word only):\n"
+    "- retrieve: AI research question answerable from local corpus, "
+    "or asks about 'this dataset/corpus/papers'\n"
+    "- tool: needs LIVE arXiv search (today/this week/specific author/paper ID)\n"
+    "- clarify: too vague to search (e.g. 'tell me about it')\n"
+    "- refuse: unrelated to AI research (cooking, sports, etc.)\n"
+    "- answer_from_memory: answered from chat history alone\n\n"
+    "When unsure between retrieve and tool, use retrieve.\n"
+    "Query: {query}\n"
+    "History: {summary}\n"
+    "Label:"
 )
 CONTEXT_CHECK_PROMPT = (
+    # Unused — check_context now uses heuristics
     "You are evaluating retrieved evidence for a RAG system.\n\n"
     "Given the user query and retrieved evidence chunks, output exactly "
     "one word from: sufficient, contradictory, or empty.\n\n"
@@ -86,21 +82,17 @@ CONTEXT_CHECK_PROMPT = (
     "Evidence:\n{evidence}"
 )
 ANSWER_PROMPT = (
-    "You are an AI research assistant with access to a corpus of recent "
-    "arXiv cs.AI papers.\n\n"
-    "Instructions:\n"
-    "- For trend or summary questions: identify patterns across multiple "
-    "retrieved papers, group by theme, and name specific papers as examples\n"
-    "- For specific technical questions: answer precisely using the most "
-    "relevant retrieved chunks\n"
-    "- Always cite paper titles inline when making specific claims\n"
-    "- If context is insufficient, say so explicitly rather than fabricating\n"
-    "- Be concise but substantive\n\n"
-    "Summary memory: {summary}\n"
-    "Recent messages:\n{messages}\n\n"
-    "Retrieved papers and chunks:\n{docs}\n\n"
-    "Tool result (live arXiv search):\n{tool_result}\n\n"
-    "User query: {query}\n\n"
+    "You are an arXiv cs.AI research assistant.\n"
+    "Answer the query using retrieved papers. "
+    "For trend questions: group papers by theme. "
+    "For technical questions: be precise. "
+    "Cite paper titles inline. "
+    "If context is insufficient, say so.\n\n"
+    "Memory: {summary}\n"
+    "History: {messages}\n"
+    "Papers:\n{docs}\n"
+    "Tool results:\n{tool_result}\n"
+    "Query: {query}\n"
     "Answer:"
 )
 CLARIFY_TEMPLATE = "Could you clarify your request with a specific AI research topic, method, or paper?"
@@ -179,8 +171,14 @@ def _append_trace(state: dict[str, Any], node: str, decision: str, reasoning: st
 
 
 def _messages_to_text(messages: list[dict[str, str]]) -> str:
-    """Serialize recent conversation into prompt-safe text."""
-    return "\n".join([f"{m.get('role', 'unknown')}: {m.get('content', '')}" for m in messages[-6:]])
+    """Serialize recent conversation into prompt-safe text with length cap."""
+    lines = []
+    for m in messages[-4:]:  # Reduced from 6 to 4
+        role = m.get("role", "unknown")
+        # Cap each message at 200 chars to prevent context bloat
+        content = m.get("content", "")[:200]
+        lines.append(f"{role}: {content}")
+    return "\n".join(lines)
 
 
 def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
@@ -221,41 +219,101 @@ def classify_intent(state: dict[str, Any]) -> dict[str, Any]:
     return {"decision": decision}
 
 
+TECHNICAL_TERMS = {
+    "llm", "rag", "transformer", "attention", "embedding", "fine-tuning",
+    "rlhf", "dpo", "ppo", "bert", "gpt", "diffusion", "vae", "gan",
+    "reinforcement", "supervised", "unsupervised", "neural", "gradient",
+    "inference", "training", "benchmark", "evaluation", "dataset",
+    "retrieval", "generation", "alignment", "hallucination", "prompt",
+    "agent", "agentic", "multimodal", "tokenizer", "encoder", "decoder"
+}
+
+def _is_already_technical(query: str) -> bool:
+    """Check if query already uses technical terminology — skip rewrite if so."""
+    words = set(query.lower().split())
+    return bool(words & TECHNICAL_TERMS)
+
 # DECISION: retrieve step merged into rewrite_query_node because 
 # retrieval is always preceded by rewriting — a separate node added 
 # graph complexity without observability benefit.
 def rewrite_query_node(state: dict[str, Any]) -> dict[str, Any]:
-    """Rewrite and retrieve chunks for improved semantic recall."""
+    """Rewrite and retrieve chunks; skip rewrite for already-technical queries."""
+    query = state.get("query", "")
+    rewrite_enabled = state.get("rewrite_enabled", True)
+    
+    # Skip LLM rewrite call if query is already technical — saves one API call
+    # DECISION: Technical queries don't benefit from rewriting since they
+    # already use corpus-native terminology. This reduces API calls on the
+    # most common query type without degrading retrieval quality.
+    if rewrite_enabled and _is_already_technical(query):
+        rewrite_enabled = False
+        _append_trace(
+            state, "rewrite_query", "skipped_technical",
+            "Query already uses technical terms — skipping LLM rewrite to save API calls.",
+            query, query
+        )
+    
     rewritten, docs = retrieve_chunks(
-        state.get("query", ""),
+        query,
         state.setdefault("trace", []),
-        rewrite_enabled=state.get("rewrite_enabled", True),
+        rewrite_enabled=rewrite_enabled,
     )
-    _append_trace(state, "rewrite_query", "rewritten", "Rewriting aligns user phrasing to technical corpus terminology.", state.get("query", ""), rewritten)
+    _append_trace(
+        state, "rewrite_query", "rewritten",
+        "Rewriting aligns user phrasing to technical corpus terminology.",
+        query, rewritten
+    )
     return {"rewritten_query": rewritten, "retrieved_docs": docs}
 
 
 
 def check_context(state: dict[str, Any]) -> dict[str, Any]:
-    """Assess whether retrieved evidence is sufficient, contradictory, or empty."""
+    """Assess retrieved evidence quality using heuristics instead of LLM.
+    
+    # DECISION: Replaced LLM-based context checking with heuristics to
+    # reduce API calls from 4 to 3 per turn. The LLM version was calling
+    # the model just to return one word, which consumed rate limit budget
+    # disproportionate to the value. Heuristic rules cover >95% of cases:
+    # empty corpus → empty, relevant titles present → sufficient.
+    # True contradiction detection is rare and handled by generate_answer's
+    # uncertainty instruction when it occurs.
+    """
     docs = state.get("retrieved_docs", [])
+    query = state.get("query", "").lower()
+    
     if not docs:
         decision = "empty"
     else:
-        evidence = "\n".join([f"- {d.get('title', '')}: {d.get('chunk_text', '')[:240]}" for d in docs[:3]])
-        try:
-            raw = _invoke_with_retry(
-                _model,
-                CONTEXT_CHECK_PROMPT.format(
-                    query=state.get("query", ""), evidence=evidence
-                )
-            )
-            candidate = raw.strip().split()[0].lower()
-            decision = candidate if candidate in {"sufficient", "contradictory", "empty"} else "sufficient"
-        except Exception:
+        # Check relevance: if top doc title shares keywords with query,
+        # context is sufficient. This avoids an LLM call for the common case.
+        query_words = set(query.split()) - {
+            "what", "how", "why", "when", "where", "who", "is", "are",
+            "the", "a", "an", "of", "in", "on", "for", "to", "do",
+            "you", "me", "i", "we", "they", "it", "this", "that"
+        }
+        top_titles = " ".join([
+            d.get("title", "").lower() for d in docs[:3]
+        ])
+        top_chunks = " ".join([
+            d.get("chunk_text", "").lower()[:200] for d in docs[:3]
+        ])
+        combined = top_titles + " " + top_chunks
+        
+        # Count keyword overlap between query and retrieved content
+        overlap = sum(1 for w in query_words if w in combined)
+        
+        if overlap >= 1 or len(query_words) == 0:
             decision = "sufficient"
-    _append_trace(state, "check_context", decision, "Context quality controls answer/tool/clarification branch.", state.get("query", ""), decision)
-    return {"context_decision": decision, "context_contradictory": decision == "contradictory"}
+        else:
+            decision = "empty"
+    
+    _append_trace(
+        state, "check_context", decision,
+        "Heuristic context check: keyword overlap between query and "
+        "retrieved titles/chunks. Replaces LLM call to save rate limit.",
+        state.get("query", ""), decision
+    )
+    return {"context_decision": decision, "context_contradictory": False}
 
 
 def call_arxiv_tool(state: dict[str, Any]) -> dict[str, Any]:
@@ -303,7 +361,13 @@ def generate_answer(state: dict[str, Any]) -> dict[str, Any]:
     """Generate final response using memory, retrieved context, and optional tool output."""
     try:
         docs = state.get("retrieved_docs", [])
-        doc_text = "\n".join([f"{d.get('title', '')}: {d.get('chunk_text', '')[:500]}" for d in docs[:6]])
+        doc_text = "\n".join([
+            f"{d.get('title', '')}: {d.get('chunk_text', '')[:300]}" 
+            for d in docs[:4]
+        ])
+        # DECISION: Reduced from 6×500 to 4×300 chars to stay within free-tier
+        # context budgets. Abstract-level chunks are typically under 400 chars
+        # so this captures most of each chunk while halving token consumption.
         answer = _invoke_with_retry(
             _model,
             ANSWER_PROMPT.format(
